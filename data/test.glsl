@@ -77,8 +77,10 @@ vec2 calculateDistortion( vec2 coords ) {
 void main() {
 	vec2 coords;
 
+	coords = vertTexCoord.st;
+
 	// Sine wave distortion
-	coords = vec2( desin( vertTexCoord.s, vertTexCoord.t), vertTexCoord.t );
+	coords = vec2( desin( coords.s, coords.t), coords.t );
 
 	vec4 adjust = vertColor;
 
