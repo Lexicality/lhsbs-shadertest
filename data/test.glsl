@@ -38,14 +38,15 @@ void main() {
 	vec4 adjust = vertColor;
 
 	const float scandist = 10;
-	const float scanAmt = 2;
+	const float scanAmt = 4;
 	float scanloc = mod(float(timer / 40), scandist);
 	float cline = mod( (vertTexCoord.t / texOffset.t), scandist );
 
 	if ( cline > scanloc - scanAmt && cline < scanloc + scanAmt ) {
+		// Endarken the section
 		adjust *= 0.8;
-		coords.s += coords.t / 4;
-		// adjust = vec4(0,0,0,0);
+		// Skew it sideways
+		coords.s -= (2 - coords.t * 4) / 4;
 	}
 
 	// Write it to the screen
