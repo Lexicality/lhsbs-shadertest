@@ -1,8 +1,12 @@
+//import javax.media.opengl.GL;
+//import javax.media.opengl.GL2;
 
 PImage img;
 PShader shader;
 
-final int tilesX = 5, tilesY = 5;
+//PJOGL pgl;
+//GL2 gl2;
+
 
 void loadShader() {
   shader = loadShader("test.glsl");
@@ -15,6 +19,8 @@ void setup () {
   if (shader == null) {
     exit();
   }
+//  pgl = (PJOGL)((PGraphicsOpenGL)g).pgl;
+//  gl2 = pgl.gl.getGL2();
 }
 
 void keyPressed() {
