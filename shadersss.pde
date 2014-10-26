@@ -32,20 +32,7 @@ void draw() {
   int tx = 0, ty = 0, i, j;
   int now = millis();
   shader.set("timer", now);
-  int distortio = round(now / 100);
-  if ( distortio > lastDistort) {
-    lastDistort = distortio;
-    for (i = 0; i < tilesX; i++) {
-      for (j = 0; j < tilesY; j++) {
-        if (random(100) < 25) {
-          tx |= 1 << i;
-          ty |= 1 << j;
-        }
-      }
-    }
-    shader.set("tiles", tx, ty);
-  }
-
+  
   filter(shader);
   rect(40, 40, 20, 20);
   text(binary(tx), 40, 70);

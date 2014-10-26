@@ -7,18 +7,12 @@ precision mediump int;
 
 uniform int timer;
 
-uniform sampler2D texture;
-
 uniform vec4 viewport;
-uniform ivec2 tiles;
-
+uniform sampler2D texture;
 uniform vec2 texOffset;
 
 varying vec4 vertColor;
 varying vec4 vertTexCoord;
-
-const int tilesX = 5;
-const int tilesY = 5;
 
 out vec4 pixel;
 
@@ -33,47 +27,6 @@ float desin(float val, float sinnable) {
 	return val + sin(sinnable) * 0.1;// ( ( 1 + sin(sinnable) ) / 2 );
 }
 
-// 5x5 grid of distortions
-
-///
-// This figures out how much of the screen each section takes
-//  up and then collapses that to be between 0 and 1.
-vec2 sectionSize() {
-	float
-		w = viewport[2],
-		h = viewport[3];
-	return vec2( (w / tilesX) / w, (h / tilesY) / h );
-}
-
-ivec2 detectScreenSection() {
-	vec2 secSize = sectionSize();
-	float
-		x = vertTexCoord.x,
-		y = vertTexCoord.y,
-		w = secSize.x,
-		h = secSize.y;
-	return ivec2(floor(x / w), floor(y / h));
-}
-
-bool shouldFlicker() {
-	ivec2 section = detectScreenSection();
-	bool
-		inx = (tiles.x & (1 << section.x)) == 0,
-		iny = (tiles.y & (1 << section.y)) == 0;
-	return inx && iny;
-}
-
-// const float DISTORTION_AMT = 0.02;
-vec2 calculateDistortion( vec2 coords ) {
-	float
-		x = rand(coords.st),
-		y = rand(coords.ts);
-	// x *= DISTORTION_AMT;
-	// y *= DISTORTION_AMT;
-	return vec2(x, y);
-}
-
-
 void main() {
 	vec2 coords;
 
@@ -83,12 +36,6 @@ void main() {
 	coords = vec2( desin( coords.s, coords.t), coords.t );
 
 	vec4 adjust = vertColor;
-
-	// Show "static" in image
-	if ( shouldFlicker() ) {
-		coords = calculateDistortion( coords );
-		adjust = vec4(3, 3, 3, 1);
-	}
 
 	// Write it to the screen
 	pixel = texture2D(texture, coords) * adjust;
