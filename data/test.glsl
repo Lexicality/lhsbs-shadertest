@@ -24,16 +24,13 @@ float rand(vec2 co){
 float desin(float val, float sinnable) {
 	sinnable *= 3.141569;
 	sinnable *= mod( float(timer), 10);
-	return val + sin(sinnable) * 0.1;// ( ( 1 + sin(sinnable) ) / 2 );
+	return val + sin(sinnable) * 0.1;
 }
 
 void main() {
 	vec2 coords;
 
 	coords = vertTexCoord.st;
-
-	// Sine wave distortion
-	// coords = vec2( desin( coords.s, coords.t), coords.t );
 
 	vec4 adjust = vertColor;
 
@@ -47,6 +44,8 @@ void main() {
 		adjust *= 0.8;
 		// Skew it sideways
 		coords.s -= (2 - coords.t * 4) / 4;
+		// Sine wave distortion
+		coords.s = desin( coords.s, coords.t);
 	}
 
 	// Write it to the screen
