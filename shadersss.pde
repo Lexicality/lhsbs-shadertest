@@ -23,9 +23,15 @@ void setup () {
 //  gl2 = pgl.gl.getGL2();
 }
 
+boolean isDamage;
+
 void keyPressed() {
   if (key == ' ')
     loadShader();
+  if (key == 'd') {
+    isDamage = ! isDamage;
+    shader.set("boom", isDamage);
+  }
 }
 
 

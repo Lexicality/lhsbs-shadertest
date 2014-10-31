@@ -6,6 +6,7 @@ precision mediump int;
 #endif
 
 uniform int timer;
+uniform bool boom;
 
 uniform vec4 viewport;
 uniform sampler2D texture;
@@ -39,7 +40,7 @@ void main() {
 	float scanloc = mod(float(timer / 40), scandist);
 	float cline = mod( (vertTexCoord.t / texOffset.t), scandist );
 
-	if ( cline > scanloc - scanAmt && cline < scanloc + scanAmt ) {
+	if ( boom && cline > scanloc - scanAmt && cline < scanloc + scanAmt ) {
 		// Endarken the section
 		adjust *= 0.8;
 		// Skew it sideways
