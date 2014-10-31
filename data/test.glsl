@@ -41,6 +41,19 @@ void main() {
 	float scanloc = mod(float(timer / 40), scandist);
 	float cline = mod( (vertTexCoord.t / texOffset.t), scandist );
 
+	// Constant damage screen distortion
+	if (damage > 0) {
+		float damageAmt = (float(damage) / 100);
+		// Skew it sideways
+		float val = coords.t;
+		if (val > .5)
+			val = 1 - val;
+		val += (1 - (rand(vec2(coords.t, timer / 1000)) * 2)) / 10;
+		val *= damageAmt;
+		coords.s -= val;
+	}
+
+	// Active damage moving scanlines
 	if ( boom && cline > scanloc - scanAmt && cline < scanloc + scanAmt ) {
 		// Endarken the section
 		adjust *= 0.8;
