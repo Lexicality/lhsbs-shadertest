@@ -23,14 +23,24 @@ void setup () {
 //  gl2 = pgl.gl.getGL2();
 }
 
+final int keyUp = 38;
+final int keyDown = 40;
+
 boolean isDamage;
+int damageAmt = 0;
 
 void keyPressed() {
   if (key == ' ')
     loadShader();
-  if (key == 'd') {
+  else if (key == 'd') {
     isDamage = ! isDamage;
     shader.set("boom", isDamage);
+  } else if (keyCode == keyUp && damageAmt < 100) {
+    damageAmt++;
+    shader.set("damage", damageAmt);
+  } else if (keyCode == keyDown && damageAmt > 0) {
+    damageAmt--;
+    shader.set("damage", damageAmt);
   }
 }
 
@@ -42,5 +52,7 @@ void draw() {
   
   shader.set("timer", millis());
   filter(shader);
+  
+  text(str(damageAmt), 50, 50);
 }
 
