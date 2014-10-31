@@ -7,6 +7,7 @@ precision mediump int;
 
 uniform int timer;
 uniform bool boom;
+uniform int damage;
 
 uniform vec4 viewport;
 uniform sampler2D texture;
@@ -47,12 +48,13 @@ void main() {
 		coords.s -= (2 - coords.t * 4) / 4;
 		// Sine wave distortion
 		coords.s = desin( coords.s, coords.t);
-		// Wrap the coordinates
-		if (coords.s < 0)
-			coords.s += 1;
-		if (coords.s > 1)
-			coords.s -= 1;
 	}
+
+	// Wrap the coordinates
+	if (coords.s < 0)
+		coords.s += 1;
+	if (coords.s > 1)
+		coords.s -= 1;
 
 	// Write it to the screen
 	pixel = texture2D(texture, coords) * adjust;
