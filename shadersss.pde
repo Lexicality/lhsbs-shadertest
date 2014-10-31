@@ -39,15 +39,8 @@ int lastDistort = 0;
 
 void draw() {
   image(img, -30, -50);
-  rect(20, 20, 20, 20);
-  // filter(BLUR, 5);
-  int tx = 0, ty = 0, i, j;
-  int now = millis();
-  shader.set("timer", now);
   
+  shader.set("timer", millis());
   filter(shader);
-  rect(40, 40, 20, 20);
-  text(binary(tx), 40, 70);
-  text(binary(ty), 40, 80);
 }
 
