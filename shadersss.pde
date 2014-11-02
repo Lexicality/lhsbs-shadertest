@@ -19,8 +19,8 @@ void setup () {
   if (shader == null) {
     exit();
   }
-//  pgl = (PJOGL)((PGraphicsOpenGL)g).pgl;
-//  gl2 = pgl.gl.getGL2();
+  //  pgl = (PJOGL)((PGraphicsOpenGL)g).pgl;
+  //  gl2 = pgl.gl.getGL2();
 }
 
 final int keyUp = 38;
@@ -30,9 +30,11 @@ boolean isDamage;
 int damageAmt = 0;
 
 void keyPressed() {
-  if (key == ' ')
+  if (key == ' ') {
     loadShader();
-  else if (key == 'd') {
+    shader.set("boom", isDamage);
+    shader.set("damage", damageAmt);
+  } else if (key == 'd') {
     isDamage = ! isDamage;
     shader.set("boom", isDamage);
   } else if (keyCode == keyUp && damageAmt < 100) {
@@ -49,10 +51,10 @@ int lastDistort = 0;
 
 void draw() {
   image(img, -30, -50);
-  
+
   shader.set("timer", millis());
   filter(shader);
-  
+
   text(str(damageAmt), 50, 50);
 }
 
