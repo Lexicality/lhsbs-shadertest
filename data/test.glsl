@@ -20,6 +20,10 @@ out vec4 pixel;
 
 const float pi = 3.141569;
 
+float gauss(float x, const float a, const float b, const float c, const float d) {
+	return a * exp( - ( pow( x - b, 2 ) / 2 * pow( c, 2 ) ) ) + d;
+}
+
 // http://stackoverflow.com/a/4275343/823542
 float rand(vec2 co){
 	return fract(sin(dot(co.xy, vec2(12.9898,78.233))) * 43758.5453);
@@ -46,12 +50,24 @@ void main() {
 	// Constant damage screen distortion
 	if (damage > 0) {
 		float damageAmt = (float(damage) / 100);
+		float idamage = 100 - damage;
+		float idamageAmt = (float(idamage) / 100);
 		// Skew it sideways
-		float val = coords.t;
-		if (val > .5)
-			val = 1 - val;
-		val += (1 - (rand(vec2(coords.t, timer / 1000)) * 2)) / 10;
-		val *= damageAmt;
+		float val;
+		// float val = coords.t;
+
+		float a = damageAmt + rand(vec2(0, timer / 100)) * 0.05,
+		      b = rand(vec2(1, timer / ( 10 * idamage) ) ) * 4 - 2,
+		      c = sqrt(.5),
+		      d = 0;
+		// TODO: Mix this with a much lower level one for a bump spike
+		val = gauss( coords.t * 20 - 10, a, b, c, d );
+
+
+		val += ( (1 - (rand(vec2(coords.t, timer / 1000)) * 2)) / 10 ) * (0.2 * damageAmt);
+		// val
+		// val *= damageAmt;
+
 		coords.s -= val;
 	}
 
