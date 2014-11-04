@@ -53,16 +53,24 @@ void main() {
 		float idamage = 100 - damage;
 		float idamageAmt = (float(idamage) / 100);
 		// Skew it sideways
-		float val;
+		float val = 0;
 		// float val = coords.t;
 
-		float height = (damageAmt * damageAmt * 0.05) + rand(vec2(0, timer / 100)) * 0.05 * damageAmt,
-		      a = rand(vec2(1, timer / ( 10 * idamage) ) ) * 4 - 2,
-		      b = sqrt(.5),
-		      offset = 0;
+		float height, a, b, offset;
+
+		height = (damageAmt * damageAmt * 0.05) + rand(vec2(0, timer / 100)) * 0.05 * damageAmt;
+		a = rand(vec2(1, timer / ( 10 * idamage) ) ) * 4 - 2;
+		b = sqrt(.5);
+		offset = 0;
 		// TODO: Mix this with a much lower level one for a bump spike
 		val = gauss( coords.t * 20 - 10, height, a, b, offset );
 
+		height = .1;
+		a = rand(vec2(1, timer / ( 10 * idamage) ) ) * 2 + 4;
+		b = .2 * damageAmt;
+		offset = -0.05;
+
+		val += gauss( coords.t * 20 - 10, height, a, b, offset ) * damageAmt;
 
 		val += ( (1 - (rand(vec2(coords.t, timer / 1000)) * 2)) / 10 ) * (0.05 * damageAmt);
 		// val
